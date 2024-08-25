@@ -1,0 +1,78 @@
+version: '3.8'  # docker compose file format version
+
+services:   # services used in our application 
+  backend:  # Service definition for the backend application.
+    build:
+      context: ./backend  # Builds the backend service from the Dockerfile located in the ./backend directory.
+      target: prod
+    container_name: backend # Assigns the container a name "backend".
+    ports:
+      - "8000:8000"  # Maps port 8000 on the host to port 8000 on the container.
+    depends_on:
+      - db   # Ensures the db service is started before the backend service.
+      - redis  # Ensure the redis service is started before the backend service.
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - REDIS_URL=${REDIS_URL}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+  
+  test: # The test service is responsible for running automated tests against the backend application.
+    build:
+      context: ./backend
+      target: test  # Use the test stage for the test service
+    container_name: backend_tests
+    depends_on:
+      - test_db
+      - redis
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${TEST_POSTGRES_DB}
+      - POSTGRES_HOST=${TEST_POSTGRES_HOST}
+      - REDIS_URL=${REDIS_URL}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+
+  db:   # service definition for the PostgreSQL database.
+    image: postgres:13   # Uses the official PostgreSQL image, version 13
+    container_name: db   # Names the container 'db'
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB} 
+    ports:
+      - "5434:5434"  # Maps port 5434 on the host to port 5434 in the container 
+
+  test_db: # A separate PostgreSQL database service used exclusively for testing.
+    image: postgres:13
+    container_name: test_db
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${TEST_POSTGRES_DB}
+    ports:
+      - "5433:5433" # Maps port 5433 on the host to port 5433 in the container 
+
+  redis:   # Service definition for redis.
+    image: redis:6.2  # Uses the official Redis image, version 6.2
+    container_name: redis  # Names the container 'redis'
+    ports:
+      - "6379:6379"  # Maps port 6379 on the host to port 6379 in the container (default Redis port)
+
+  frontend:  # Service definition for the frontend application.
+    build: ./frontend  # Builds the frontend service from the Dockerfile located in the ./frontend directory.
+    container_name: frontend  # Names the container 'frontend'
+    ports:
+      - "3000:3000"  # Maps port 3000 on the host to port 3000 in the container
+    depends_on:
+      - backend  # Ensures the 'backend' service starts before the 'frontend' service

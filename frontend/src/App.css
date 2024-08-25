@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.App {
+  text-align: center;
+  display: flex;
+  
+  align-items: center;
+  justify-content: center;
+
+  background: linear-gradient(223deg, #6DE1DA 25.91%, #64A2CF 101.46%);
+  
+}
+
+main {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* For webkit browsers (Chrome, Safari) */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* For Firefox */
+.hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+}
+
+/* General styling to ensure smooth scrolling */
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE 10+ */
+  overflow: -moz-scrollbars-none; /* Old Firefox */
+}
+
+.edit-icon-bg {
+  background: rgba(148, 23, 246, 0.25);
+  box-shadow: drop-shadow(1px 2px 20px rgba(185, 200, 255, 0.40));
+}
+
+
+

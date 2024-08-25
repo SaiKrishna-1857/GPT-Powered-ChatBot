@@ -1,0 +1,22 @@
+{
+    "name": "chatBot",
+    "scripts": {
+      "postdeploy": "cd backend && python manage.py migrate"
+    },
+    "formation": {
+      "web": {
+        "quantity": 1,
+        "size": "Standard-1X"
+      }
+    },
+    "addons": ["heroku-postgresql"],
+    "buildpacks": [
+      {
+        "url": "heroku/nodejs"
+      },
+      {
+        "url": "heroku/python"
+      }
+    ]
+  }
+  
