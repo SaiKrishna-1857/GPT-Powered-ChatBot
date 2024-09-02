@@ -110,5 +110,3 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ id, username, userImage, messag
 };
 
 export default ChatBubble;
-
-

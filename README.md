@@ -83,7 +83,7 @@ I recommend using Docker as it simplifies the setup headaches. Also it'll automa
       ```
    2. Clone the Repository:
       ```
-      git clone https://github.com/SaiSriramKurapati/chatBot.git
+      git clone https://github.com/SaiKrishna-1857/GPT-Powered-ChatBot.git
       cd chatBot
       ```
    3. Build and run the Dockker containers:
@@ -108,7 +108,7 @@ Before you begin, ensure you have the following installed on your machine:
 ### Respository Setup
 
 ``` 
-git clone https://github.com/SaiSriramKurapati/chatBot.git
+git clone https://github.com/SaiKrishna-1857/GPT-Powered-ChatBot.git
 cd chatBot
 ```
 

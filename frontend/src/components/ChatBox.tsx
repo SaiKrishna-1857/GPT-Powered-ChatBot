@@ -5,19 +5,17 @@ import Actions from './Actions';
 import FooterForm from './FooterForm';
 import axios from 'axios';
 import botImage from '../assets/bot_img.png';
-import usrImage from '../assets/usr_img.png'
-import profile from '../assets/profile.svg'
-
+import usrImage from '../assets/bot_img.png'
 
 // Interface for a message object, representing both user and bot messages.
 interface Message {
-    id: number; // Unique identifier for each message.
-    username: string; // The name of the user or bot sending the message.
-    userImage: string;  // URL of the user's or bot's avatar image.
-    message: string | React.ReactNode; // The message content, which can be a string or JSX 
-    isUser: boolean; // Boolean flag indicating if the message is from the user (true) or the bot (false).
-    isTyping?: boolean; // flag to indicate if the message is being typed
-    isEditing?: boolean; // flag to indicate if the user is currently editing their message.
+    id: number;
+    username: string;
+    userImage: string;
+    message: string | React.ReactNode;
+    isUser: boolean;
+    isTyping?: boolean;
+    isEditing?: boolean;
   }
 
 const ChatBox: React.FC = () => {
@@ -47,9 +45,7 @@ const ChatBox: React.FC = () => {
   useEffect(() => {
     const handleScroll = () => {
       if (chatContainerRef.current) {
-        // Determine if the user has scrolled to the bottom of the chat container
         const isAtBottom = chatContainerRef.current.scrollTop + chatContainerRef.current.clientHeight >= chatContainerRef.current.scrollHeight;
-        // Update the state to reflect whether the user is scrolling away from the bottom
         setIsUserScrolling(!isAtBottom);
       }
     };
@@ -63,7 +59,7 @@ const ChatBox: React.FC = () => {
         chatContainerRef.current.removeEventListener('scroll', handleScroll);
       }
     };
-  }, []); // Empty dependency array ensures this effect runs only once on mount
+  }, []);
 
   /**
    * Second useEffect:
@@ -73,12 +69,10 @@ const ChatBox: React.FC = () => {
    *   intentionally viewing older messages.
    */
   useEffect(() => {
-    // Check if the chat container exists and the user is not scrolling
     if (chatContainerRef.current && !isUserScrolling) {
-      // Automatically scroll to the bottom of the chat container
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight; // Scroll to the bottom of the chat.
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
-  }, [messages, isUserScrolling]); // Effect runs whenever `messages` or `isUserScrolling` changes
+  }, [messages, isUserScrolling]);
 
   /**
    * Third useEffect:
@@ -92,16 +86,11 @@ const ChatBox: React.FC = () => {
   
     const handleScroll = () => {
       if (chatContainerRef.current) {
-        // Check if the user has scrolled to the bottom
         const isAtBottom = chatContainerRef.current.scrollTop + chatContainerRef.current.clientHeight >= chatContainerRef.current.scrollHeight;
-        // Update scrolling state based on the user's position in the chat
         setIsUserScrolling(!isAtBottom);
-  
-        // Clear any existing timeout to prevent conflicts
         clearTimeout(timeoutId);
         if (!isAtBottom) {
-          // Set a timeout to re-enable auto-scrolling after 100 seconds of inactivity
-          timeoutId = setTimeout(() => setIsUserScrolling(false), 100000); // Wait 100 seconds after user stops scrolling
+          timeoutId = setTimeout(() => setIsUserScrolling(false), 100000);
         }
       }
     };
@@ -117,7 +106,7 @@ const ChatBox: React.FC = () => {
       }
       clearTimeout(timeoutId);
     };
-  }, []); // Empty dependency array ensures this effect runs only once on mount
+  }, []);
   
   
   // Effect hook to save messages to local storage whenever the messages state changes.
@@ -214,8 +203,6 @@ const ChatBox: React.FC = () => {
         currentMessage += response[currentMessage.length];
         setMessages(prevMessages => {
           const updatedMessages = [...prevMessages];
-          // updatedMessages[updatedMessages.length - 1].message = currentMessage;
-          // Ensure the array is not empty and the last element exists before updating
           if (updatedMessages.length > 0 && updatedMessages[updatedMessages.length - 1]) {
             updatedMessages[updatedMessages.length - 1].message = currentMessage;
         }
@@ -225,9 +212,6 @@ const ChatBox: React.FC = () => {
         clearInterval(typingInterval);
         setMessages(prevMessages => {
           const updatedMessages = [...prevMessages];
-          // updatedMessages[updatedMessages.length - 1].isTyping = false;
-          // updatedMessages[updatedMessages.length - 1].message = response;
-          // Ensure the array is not empty and the last element exists before updating
           if (updatedMessages.length > 0 && updatedMessages[updatedMessages.length - 1]) {
             updatedMessages[updatedMessages.length - 1].isTyping = false;
             updatedMessages[updatedMessages.length - 1].message = response;
@@ -305,11 +289,11 @@ const ChatBox: React.FC = () => {
         <div ref={chatContainerRef} className="flex flex-col flex-grow overflow-y-auto items-center w-full px-4 overflow-hidden hide-scrollbar">
                 <img
                 loading="lazy"
-                src={profile}
+                src={botImage}
                 className="object-contain mt-4 rounded-full aspect-square w-[54px]"
                 alt="Profile"
                 />
-                <h1 className="mt-2 text-sm font-bold leading-loose text-black">Hi, I’m Ava</h1>
+                <h1 className="mt-2 text-sm font-bold leading-loose text-black">Hi, I’m Your Personal Assistant!</h1>
                 <p className="text-sm leading-loose text-neutral-500 text-opacity-90">How can I help you?</p>
 
                 <section className="flex flex-col self-stretch mt-4 mb-4 w-full space-y-4">
@@ -317,9 +301,9 @@ const ChatBox: React.FC = () => {
                       <div className="flex items-start w-full gap-1">
                         <ChatBubble
                           id={0}
-                          username="Ava"
+                          username="Personal Assistant"
                           userImage = {botImage}
-                          message="Hello.👋 I'm Ava. You can ask me any questions."
+                          message="Hello.👋 I'm Your Personal Assistant. You can ask me any questions."
                           isUser={false}
                           onUpdateMessage={() => {}}
                           onDeleteMessagesFrom={() => {}}

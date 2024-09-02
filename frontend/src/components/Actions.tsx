@@ -3,27 +3,16 @@ import { useState } from 'react';
 
 const Actions: React.FC = () => {
 
-  // State to track if the "Dislike" button is active
   const [isDisliked, setIsDisliked] = useState(false);
-
-  // State to track if the "Like" button is active
   const [isLiked, setIsLiked] = useState(false);
 
-  // Function to handle clicks on the "Dislike" button
   const handleDislikeClick = () => {
-    // Toggle the "Dislike" state
     setIsDisliked(!isDisliked);
-
-    // If the "Like" button is active, deactivate it
     if (isLiked) setIsLiked(false);
   };
 
-  // Function to handle clicks on the "Like" button
   const handleLikeClick = () => {
-    // Toggle the "Like" state
     setIsLiked(!isLiked);
-
-    // If the "Dislike" button is active, deactivate it
     if (isDisliked) setIsDisliked(false);
   };
   

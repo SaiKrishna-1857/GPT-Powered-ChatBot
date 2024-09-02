@@ -12,7 +12,9 @@
 /build
 
 /__pycache__
-/env
+/venv
+.env
+/frontend/public
 
 # misc
 .DS_Store

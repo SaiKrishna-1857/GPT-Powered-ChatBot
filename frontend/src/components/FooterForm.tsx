@@ -4,9 +4,8 @@ import TextareaAutosize from 'react-textarea-autosize'; // This package helps in
 
 // Define the type for the props that FooterForm will accept
 interface FooterFormProps {
-    onSendMessage: (message: string) => void;  // Callback function to send the user's message
+    onSendMessage: (message: string) => void; 
   }
-
 
 const FooterForm: React.FC<FooterFormProps> = ({onSendMessage} ) => {
 
@@ -15,20 +14,20 @@ const FooterForm: React.FC<FooterFormProps> = ({onSendMessage} ) => {
   
   // Handle form submission when the user sends a message
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault(); // Prevent the default form submission behavior
-    if (input.trim()) { // Check if the input is not just whitespace
-      onSendMessage(input); // Send the message to the parent component
-      setInput(''); // Clear the input after sending
+    e.preventDefault();
+    if (input.trim()) {
+      onSendMessage(input);
+      setInput('');
     }
   };
 
   // Handle the Enter key for sending the message
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey) {  // Check if the Enter key is pressed without the Shift key
-      e.preventDefault(); // Prevent the default newline behavior
-      if (input.trim()) {  // Check if the input is not just whitespace
-        onSendMessage(input);  // Send the message to the parent component
-        setInput(''); // Clear the input after sending
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      if (input.trim()) {
+        onSendMessage(input);
+        setInput('');
       }
     }
   };
@@ -43,13 +42,13 @@ const FooterForm: React.FC<FooterFormProps> = ({onSendMessage} ) => {
           <TextareaAutosize
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown} // Handles the 'Enter' key for submission
+            onKeyDown={handleKeyDown}
             className="focus:outline-none w-full resize-none overflow-hidden"
             placeholder="Ask me anything..."
             aria-label="Ask me anything.."
             tabIndex={0}
             minRows={1}
-            maxRows={6} // Adjust this value as needed
+            maxRows={6}
             style={{ backgroundColor: 'transparent' }}
           />
         </div>
@@ -65,4 +64,3 @@ const FooterForm: React.FC<FooterFormProps> = ({onSendMessage} ) => {
 };
 
 export default FooterForm;
-
